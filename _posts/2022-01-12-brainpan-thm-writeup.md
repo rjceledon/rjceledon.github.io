@@ -34,9 +34,9 @@ Aqui ya podemos marcar el primer objetivo como completado, y empezamos...
 
 ## RECONOCIMIENTO
 
-Como siempre primero podemos hacer un `ping -c 1 IP` para determinar el `TTL` de la respuesta a ver si se acerca a 64 (Linux) o a 128 (Windows), vemos en este caso que es Linux.
+Como siempre primero podemos hacer un `ping -c 1 IP`{:.language-bash .highlight} para determinar el `TTL` de la respuesta a ver si se acerca a 64 (Linux) o a 128 (Windows), vemos en este caso que es Linux.
 
-Luego seguimos con nuestro escaneo con la herramienta `nmap` para identificar puertos abiertos y mucho mas con:
+Luego seguimos con nuestro escaneo con la herramienta `nmap`{:.language-bash .highlight} para identificar puertos abiertos y mucho mas con:
 > `nmap -p- --open -T5 -n -v 10.10.136.187 -oN puertos.txt`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149168356-1fdfc1b9-5f1a-4139-93b3-ee11283955f7.png)
 
@@ -77,10 +77,10 @@ Una vez tengamos nuestra maquina montada, descargamos e instalamos el [Immunity 
 En esta maquina requeriremos de desactivar la `Data Execution Protection` que es el mecanismo que se utiliza a nivel de hardware para marcar la memoria con atributos que indican que la ejecucion de comandos no sea posible en espacios de memoria asignados, con esto desactivado podremos hacer el debug y probar el exploit sin ningun problema. Para desactivar esto necesitamos abrir una consola `cmd.exe` con permisos de Administrador y enviar el siguiente comando:
 > `BCDEDIT /SET {CURRENT} NX ALWAYSOFF`{:.language-cmd .highlight}
 
-Una vez enviado el comando, reiniciamos la maquina Windows y ya la `DEP` estara desactivada, ahora tenemos que ver la forma de como enviar el archivo `brainpan.exe` a esta maquina, podemos hacerlo usando `impacket-smbserver`, `python -m http.server` o cualquier otro medio, recordando siempre que aca se deben usar las IPs de la red NAT que otorga nuestro software de virtualizacion (aca estamos usando [VMWare Workstation Player](https://www.vmware.com/latam/products/workstation-player/workstation-player-evaluation.html)):
+Una vez enviado el comando, reiniciamos la maquina Windows y ya la `DEP` estara desactivada, ahora tenemos que ver la forma de como enviar el archivo `brainpan.exe` a esta maquina, podemos hacerlo usando `impacket-smbserver`, `python -m http.server`{:.language-bash .highlight} o cualquier otro medio, recordando siempre que aca se deben usar las IPs de la red NAT que otorga nuestro software de virtualizacion (aca estamos usando [VMWare Workstation Player](https://www.vmware.com/latam/products/workstation-player/workstation-player-evaluation.html)):
 ![image](https://user-images.githubusercontent.com/85322110/149192926-dee3952b-1a37-4421-8d26-402adc12e82e.png)
 
-Usamos `impacket-smbserver` ya que el servidor web con `python -m http.server` dio alertas con `Internet Explorer` y por no instalar otro explorador, nos quedamos con SMB.
+Usamos `impacket-smbserver` ya que el servidor web con `python -m http.server`{:.language-bash .highlight} dio alertas con `Internet Explorer` y por no instalar otro explorador, nos quedamos con SMB.
 
 Luego abrimos una consola, vamos a la ruta del archivo y lo corremos desde `cmd.exe`, nos damos cuenta que abre un puerto `9999` esperando por conexion:
 ![image](https://user-images.githubusercontent.com/85322110/149193320-2ca5c8ff-86c2-498b-b7cf-e4b63eeb2109.png)
@@ -136,7 +136,7 @@ El registro `EIP` es de extrema importancia, ya que es en donde se define a que 
 
 El concepto aca seria generar una serie de caracteres que no se repitan, enviar el desbordamiento de bufer, y ver que numero se coloca en el `EIP` para saber en que posicion de la cadena que enviamos es donde se ubicara ese registro.
 
-Esto se puede hacer de multiples maneras, por aca lo haremos con `gdb-peda`, en nuestra maquina Linux utilizamos el comando `gdb -q` para abrir el GNU Debugger con peda, y luego usamos **(no cerrar la ventana de gdb-peda ya que la usaremos mas adelante)**
+Esto se puede hacer de multiples maneras, por aca lo haremos con `gdb-peda`, en nuestra maquina Linux utilizamos el comando `gdb -q`{:.language-bash .highlight} para abrir el GNU Debugger con peda, y luego usamos **(no cerrar la ventana de gdb-peda ya que la usaremos mas adelante)**
 > `pattern create 600`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149210093-1db7d3a8-26af-4644-beb2-42ed17ef6027.png)
 
@@ -144,7 +144,7 @@ Esto nos creara un patron de 600 caracteres (mayor que nuestro `buffer overflow`
 
 Para esto hay que primero cerrar el `Immunity Debugger` si estaba abierto ya con el proceso `brainpan` asignado, luego volver a abrir el `brainpan.exe` desde consola, y luego volver a abrir `Immunity Debugger` y volver a Attach el proceso.
 
-Una vez el proceso este activo, enviamos por `telnet` el patron creado en gdb-peda y vemos nuevamente el EIP que queda alojado en memoria. Vemos que pone un codigo `73413973`, este codigo nos lo copiamos y lo ponemos en `gdb-peda` con el comando `patron offset 0x73413973` y nos indica que existe un `offset` desde el inicio hasta este codigo, de `524` caracteres. Despues de esto la ventana de `gdb-peda` puede ser cerrada.
+Una vez el proceso este activo, enviamos por `telnet` el patron creado en gdb-peda y vemos nuevamente el EIP que queda alojado en memoria. Vemos que pone un codigo `73413973`, este codigo nos lo copiamos y lo ponemos en `gdb-peda` con el comando `patron offset 0x73413973`{:.language-bash .highlight} y nos indica que existe un `offset` desde el inicio hasta este codigo, de `524` caracteres. Despues de esto la ventana de `gdb-peda` puede ser cerrada.
 ![image](https://user-images.githubusercontent.com/85322110/149213047-9a0a35a7-449b-4ea2-9248-2b4cef8af584.png)
 ![image](https://user-images.githubusercontent.com/85322110/149213005-2b68526d-6940-4011-affa-fb7c776f0caf.png)
 
@@ -288,7 +288,7 @@ if __name__ == '__main__':
         sys.exit(1)
 ```
 
-Si re-abrimos el servicio `brainpan.exe` en nuestra maquina de prueba (sin utilizar el Immunity Debugger para que no pause la ejecucion) y ejecutamos el `./bofexploit.py 192.168.132.131 9999` mientras en otra ventana hacemos un `sudo nc -nlvp 443` para escuchar con `netcat` el puerto en espera de una consola remota, observamos como se realiza la explotacion de la vulnerabilidad de desbordamiento de bufer para ganar acceso inicial a nuestro sistema de prueba:
+Si re-abrimos el servicio `brainpan.exe` en nuestra maquina de prueba (sin utilizar el Immunity Debugger para que no pause la ejecucion) y ejecutamos el `./bofexploit.py 192.168.132.131 9999`{:.language-bash .highlight} mientras en otra ventana hacemos un `sudo nc -nlvp 443`{:.language-bash .highlight} para escuchar con `netcat` el puerto en espera de una consola remota, observamos como se realiza la explotacion de la vulnerabilidad de desbordamiento de bufer para ganar acceso inicial a nuestro sistema de prueba:
 ![image](https://user-images.githubusercontent.com/85322110/149257218-451c7f3f-32b5-439d-b655-1dd93bc27672.png)
 
 Ahora solo falta adaptar este exploit al sistema Linux en el que esta basado la maquina original de TryHackMe, para ello cambiaremos el payload del msfvenom a `linux/x86/shell_reverse_tcp`con la siguiente ejecucion:
@@ -304,18 +304,18 @@ Con esto podremos completar nuestro segundo objetivo de la maquina...
 
 Una vez tenemos acceso, lo primero que podemos hacer es obtener una consola mas interactiva haciendo uso de una serie de pasos que se explican a continuacion:
 
-- `script /dev/null -c bash`
+- `script /dev/null -c bash`{:.language-bash .highlight}
 - En teclado `Ctrl + Z`
-- `stty raw -echo; fg`
+- `stty raw -echo; fg`{:.language-bash .highlight}
 - Escribir `reset` aunque no se vea
 - `xterm` en Terminal Type
-- `export SHELL=bash`
-- `export TERM=xterm`
+- `export SHELL=bash`{:.language-bash .highlight}
+- `export TERM=xterm`{:.language-bash .highlight}
 
 Ya con esto tenemos una consola interactiva con la cual procedemos a seguir investigando en como ganar privilegios de `root`. En un principio entramos como el usuario `puck` pero al escribir `sudo -l` vemos que podemos ejecutar el paquete `/home/anansi/bin/anansi_util` como `root` sin proveer password:
 ![image](https://user-images.githubusercontent.com/85322110/149259975-82e6b7a6-0c99-46df-b6a8-56196afb9d7b.png)
 
-Asi que ejecutamos el comando haciendo `sudo /home/anansi/bin/anansi_util` vemos una serie de opciones, probamos con:
+Asi que ejecutamos el comando haciendo `sudo /home/anansi/bin/anansi_util`{:.language-bash .highlight} vemos una serie de opciones, probamos con:
 > `sudo /home/anansi/bin/anansi_util manual cat`{:.language-bash .highlight}
 
 Y vemos que nos abre un manual del tipo `man` o `less`, pero al estar ejecutando esto como `root` podemos facilmente escribir `!/bin/bash` para escapar del `less` y ejecutar comandos desde alli, y finalmente esto nos abrira una consola `bash` con permisos de `root`:
