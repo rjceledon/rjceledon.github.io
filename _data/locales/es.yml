@@ -1,0 +1,91 @@
+# The layout text of site
+
+# ----- Commons label -----
+
+layout:
+  post: Post
+  category: Categoria
+  tag: Tag
+
+# The tabs of sidebar
+tabs:
+  # format: <filename_without_extension>: <value>
+  home: Inicio
+  categories: Categorias
+  tags: Tags
+  archives: Archivos
+  about: Acerca
+
+# the text displayed in the search bar & search results
+search:
+  hint: buscar
+  cancel: Cancelar
+  no_results: Oops! No se hallaron resultados.
+
+panel:
+  lastmod: Actualizado Recientemente
+  trending_tags: Tags Populares
+  toc: Contenidos
+
+#  The liquid date format › http://strftime.net/
+date_format:
+  tooltip: '%a, %e %ba, %Y, %l:%M %p %z'
+  post:
+    long: '%e %b, %Y'
+    short: '%e %b'
+    archive_month: '%b'
+
+copyright:
+  # Shown at the bottom of the post
+  license:
+    template: Este post esta bajo la licencia :LICENSE_NAME por el autor.
+    name: CC BY 4.0
+    link: https://creativecommons.org/licenses/by/4.0/
+
+  # Displayed in the footer
+  brief: Ciertos derechos reservados.
+  verbose: >-
+    Excepto cuando se señale lo contrario, los posts del blog de este sitio estan licenciados
+    bajo Creative Commons Attribution 4.0 International (CC BY 4.0) Licenciado por el autor.
+
+meta: Powered by :PLATFORM with :THEME theme.
+
+not_found:
+  statment: Lo sentimos, hemos extraviado esa URL o apunta a algo que no existe.
+  hint_template: :HEAD_BAK para tratar de encontrarlo de nuevo, o buscalo en :ARCHIVES_PAGE.
+  head_back: Regresar al Inicio
+  archives_page: Archivos
+
+# ----- Posts related labels -----
+
+post:
+  written_by: Por
+  posted: Publicado
+  updated: Actualizado
+  timeago:
+    day: dias antes
+    hour: horas antes
+    minute: minutos antes
+    just_now: justo ahora
+  words: palabras
+  pageview_measure: vistas
+  read_time:
+    unit: min
+    prompt: leer
+  relate_posts: Seguir Leyendo
+  share: Compartir
+  button:
+    next: Mas nuevo
+    previous: Mas viejo
+    copy_code:
+      succeed: Copiado!
+    share_link:
+      title: Copiar link
+      succeed: Link copiado satisfactoriamente!
+  # pinned prompt of posts list on homepage
+  pin_prompt: Pineado
+
+# categories page
+categories:
+  category_measure: categorias
+  post_measure: posts
