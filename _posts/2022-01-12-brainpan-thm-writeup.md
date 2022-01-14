@@ -23,12 +23,12 @@ Esta caja en particular no utiliza `flag` de hashes en archivos `.txt` pero de i
 
 1. Deploy the machine.
 2. Gain initial access
-3.Escalate your privileges to root.
+3. Escalate your privileges to root.
 
 **Sin saltarse ninguno antes de realmente completarlo**, vamos paso a paso.
 
 Una vez logeados, procedemos a iniciar la maquina ~~y agregarle 1 hora mas por si acaso~~, luego nos conectamos al VPN con
-> `sudo openvpn /PATHTO/USER.ovpn`
+> `sudo openvpn /PATHTO/USER.ovpn`{:.language-bash .highlight}
 
 Aqui ya podemos marcar el primer objetivo como completado, y empezamos...
 
@@ -37,13 +37,13 @@ Aqui ya podemos marcar el primer objetivo como completado, y empezamos...
 Como siempre primero podemos hacer un `ping -c 1 IP` para determinar el `TTL` de la respuesta a ver si se acerca a 64 (Linux) o a 128 (Windows), vemos en este caso que es Linux.
 
 Luego seguimos con nuestro escaneo con la herramienta `nmap` para identificar puertos abiertos y mucho mas con:
-> `nmap -p- --open -T5 -n -v 10.10.136.187 -oN puertos.txt`
+> `nmap -p- --open -T5 -n -v 10.10.136.187 -oN puertos.txt`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149168356-1fdfc1b9-5f1a-4139-93b3-ee11283955f7.png)
 
 Para ver **todos** los puertos TCP `-p-`, solo listar puertos `--open`, con velocidad maxima de escaneo `-T5`, sin resolucion DNS `-n`, `-v`erbosidad para ver puertos abiertos en salida y guardando un archivo `-oN puertos.txt`
 
 Procedemos a analizar en mas detalle los puertos abiertos pasandoles scripts basicos de enumeracion `-sC` y deteccion de version `-sV`, con salida al archivo `version.txt`.
-> `nmap -sC -sV 10.10.137.187 -oN version.txt`
+> `nmap -sC -sV 10.10.137.187 -oN version.txt`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149168625-79fe0007-3015-4b83-a756-1037538c7a3f.png)
 
 
@@ -56,7 +56,7 @@ La conexion al abrirse nos muestra el banner de brainpan, y se queda esperando p
 
 Podemos hacer `fuzzing` que es la tecnica que se usa para buscar alguna ruta existente en subdirectorios de la pagina, para ello podemos usar la herramienta `gobuster` desarrollada en lenguaje Go:
 
-> `gobuster dir -t 200 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.137.187:10000/ --no-error`
+> `gobuster dir -t 200 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -u http://10.10.137.187:10000/ --no-error`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149178025-223b96ac-0283-44e3-8d68-254ee7d4df93.png)
 
 Haciendo uso de su funcion `dir` con 200 threads `-t`, usando el diccionario `-w directory-list-2.3-medium.txt` que es muy usado, pasandole la URL `-u` con el puerto 10000, y poniendo `--no-error` para evitar mostrar errores de timeout, vemos que aun sin terminar ya encontro un subdirectorio `bin` que si lo abrimos en el explorador:
@@ -75,7 +75,7 @@ Una vez tengamos nuestra maquina montada, descargamos e instalamos el [Immunity 
 ![image](https://user-images.githubusercontent.com/85322110/149190124-4a6caaee-9740-4258-941e-88284277e30e.png)
 
 En esta maquina requeriremos de desactivar la `Data Execution Protection` que es el mecanismo que se utiliza a nivel de hardware para marcar la memoria con atributos que indican que la ejecucion de comandos no sea posible en espacios de memoria asignados, con esto desactivado podremos hacer el debug y probar el exploit sin ningun problema. Para desactivar esto necesitamos abrir una consola `cmd.exe` con permisos de Administrador y enviar el siguiente comando:
-> `BCDEDIT /SET {CURRENT} NX ALWAYSOFF`
+> `BCDEDIT /SET {CURRENT} NX ALWAYSOFF`{:.language-cmd .highlight}
 
 Una vez enviado el comando, reiniciamos la maquina Windows y ya la `DEP` estara desactivada, ahora tenemos que ver la forma de como enviar el archivo `brainpan.exe` a esta maquina, podemos hacerlo usando `impacket-smbserver`, `python -m http.server` o cualquier otro medio, recordando siempre que aca se deben usar las IPs de la red NAT que otorga nuestro software de virtualizacion (aca estamos usando [VMWare Workstation Player](https://www.vmware.com/latam/products/workstation-player/workstation-player-evaluation.html)):
 ![image](https://user-images.githubusercontent.com/85322110/149192926-dee3952b-1a37-4421-8d26-402adc12e82e.png)
@@ -137,7 +137,7 @@ El registro `EIP` es de extrema importancia, ya que es en donde se define a que 
 El concepto aca seria generar una serie de caracteres que no se repitan, enviar el desbordamiento de bufer, y ver que numero se coloca en el `EIP` para saber en que posicion de la cadena que enviamos es donde se ubicara ese registro.
 
 Esto se puede hacer de multiples maneras, por aca lo haremos con `gdb-peda`, en nuestra maquina Linux utilizamos el comando `gdb -q` para abrir el GNU Debugger con peda, y luego usamos **(no cerrar la ventana de gdb-peda ya que la usaremos mas adelante)**
-> `pattern create 600`
+> `pattern create 600`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149210093-1db7d3a8-26af-4644-beb2-42ed17ef6027.png)
 
 Esto nos creara un patron de 600 caracteres (mayor que nuestro `buffer overflow`) que son unicos en series no repetitivas de 32 bits (4 Bytes = 4 chars), luego nos copiamos esto y debemos enviar nuevamente al servicio `brainpan.exe`, esto lo podriamos reemplazar en el bufer que se envia por nuestro Script de Python, pero para hacerlo mas sencillo podemos simplemente abrir una nueva sesion de `telnet` y enviarlo desde alli ya que los caracteres son reconocibles por consola.
@@ -157,13 +157,13 @@ Para resolver el primer problema, retocaremos nuestro script en Python para mand
 
 Maximizamos `Immunity Debugger` y en la linea de entrada de comandos de abajo introducir el siguiente comando para crear la carpeta de trabajo que `mona.py` usara (en mi caso decidi C:\brainpan):
 ![image](https://user-images.githubusercontent.com/85322110/149221708-78711d60-a53c-4da6-a7a2-5aff36fd3b74.png)
-> `!mona config -set workingfolder C:\%p`
+> `!mona config -set workingfolder C:\%p`{:.language-bash .highlight}
 Luego ya que tenemos la carpeta definida, utilizamos la funcion `!mona bytearray` para crear la cadena de bytes de la siguiente forma:
-> `!mona bytearray -cpb \x00`
+> `!mona bytearray -cpb \x00`{:.language-bash .highlight}
 Donde `-cpb \x00` es para no colocar el bad char 0x00 que ya se sabe debe ignorarse. Esto creara en la carpeta configurada anteriormente dos archivos `bytearray.bin` y `bytearray.txt` que el archivo de texto lo pasaremos a nuestra maquina para copiar el array, y el `.bin` lo usaremos mas adalante para comparar si hay algun `bad char` o no.
 
 Una vez copiado el archivo `bytearray.txt` a nuestra maquina Linux (se hace con `impacket-smbserver` de nuevo) podemos hacer uso de `grep` y `xclip` para copiar el contenido:
-> `grep ^\" bytearray.txt | xclip -sel clip`
+> `grep ^\" bytearray.txt | xclip -sel clip`{:.language-bash .highlight}
 ![image](https://user-images.githubusercontent.com/85322110/149220672-474bc336-62fb-4039-baa0-3c87253e34d7.png)
 
 Y luego retocamos nuetro script para incluir estos bytes luego de la posicion del `EIP`:
@@ -202,7 +202,7 @@ if __name__ == '__main__':
 Al enviar el script:
 ![image](https://user-images.githubusercontent.com/85322110/149221375-f9b3c99e-026a-4ca8-9336-e0bfb32bb555.png)
 Vemos como efectivamente el `EIP` se muestra como `42424242` que significa `BBBB`, y justo despues de este viene el stack `ESP` en donde vemos todo nuestro `bytearray` desde `0x01` hasta `0xFF`, es ciertamente ineficiente revisar caracter por caracter, asi que haremos uso de `mona.py` nuevamente donde tiene una funcion que hace esto por nosotros. Solo es ejecutar la siguiente linea:
-> `!mona compare -f C:\brainpan\bytearray.bin -a 0x0022F930` 
+> `!mona compare -f C:\brainpan\bytearray.bin -a 0x0022F930`{:.language-bash .highlight} 
 
 Comparamos el bytearray que creamos anteriormente con todo lo que viene a continuacion del `ESP` (0x0022F930) y esto nos devuelve una ventana donde no se presenta ningun `bad char`
 ![image](https://user-images.githubusercontent.com/85322110/149222484-079c9000-6236-45d3-83f2-d53e98fc9841.png)
@@ -213,10 +213,10 @@ Ya con esto resolvemos el primer problema, ahora para el segundo tenemos lo sigu
 Como no se puede apuntar directamente el `EIP` el stack `ESP` que es donde se deposita nuestro payload, debemos buscar una funcion en el mismo `brainpan.exe` que haga un salto al ESP `jmp esp`, de esta forma hariamos un salto indirecto hacia nuestro `payload`. Para encontrar un `jmp esp` dentro del programa, primero debemos buscar cual es el `Operation Code (opcode)` de `jmp esp` y lo logramos haciendo `Ctrl + F` dentro de Immunity Debugger.
 ![image](https://user-images.githubusercontent.com/85322110/149224942-ec8c8a51-e709-4b4b-b659-3b81ef2309bf.png)
 Con eso vemos el codigo es `FFE4`, no debemos prestarle atencion a la direccion a la izquierda ya que esta varia y no funcionara si la ponemos en el `EIP`, en cambio podemos usar `mona.py` para ubicar donde se encontraria un `jmp esp` usable para esto, y lo hacemos con:
-> `!mona modules` para saber que modulo debemos usar (brainpan.exe)
+> `!mona modules`{:.language-bash .highlight} para saber que modulo debemos usar (brainpan.exe)
 > ![image](https://user-images.githubusercontent.com/85322110/149225255-90a8c500-2f5a-46c6-8db1-714b2d265f0b.png)
 
-> `!mona -m brainpan.exe -s \xFF\xE4` para ubicar el pointer deseado
+> `!mona -m brainpan.exe -s \xFF\xE4`{:.language-bash .highlight} para ubicar el pointer deseado
 > ![image](https://user-images.githubusercontent.com/85322110/149225632-154d8992-8168-4700-ac51-3a762cbc720b.png)
 
 Vemos como el pointer `jmp esp` se ubica en la direccion `0x311712F3`, este seria finalmente nuestro `EIP` deseado, que hara una redireccion al `ESP` donde meteremos nuestro `payload` al culminar. Al momento de configurar esta direccion en el script de Python, es necesario saber que el `EIP` especificamente debe venir en formato [Little Endian](https://es.wikipedia.org/wiki/Endianness), para esto solo hay que invertir la posicion de los bytes, es decir que nuestra variable quedaria como `eip = "\xf3\x12\x17\x31"`.
@@ -316,7 +316,7 @@ Ya con esto tenemos una consola interactiva con la cual procedemos a seguir inve
 ![image](https://user-images.githubusercontent.com/85322110/149259975-82e6b7a6-0c99-46df-b6a8-56196afb9d7b.png)
 
 Asi que ejecutamos el comando haciendo `sudo /home/anansi/bin/anansi_util` vemos una serie de opciones, probamos con:
-> `sudo /home/anansi/bin/anansi_util manual cat`
+> `sudo /home/anansi/bin/anansi_util manual cat`{:.language-bash .highlight}
 
 Y vemos que nos abre un manual del tipo `man` o `less`, pero al estar ejecutando esto como `root` podemos facilmente escribir `!/bin/bash` para escapar del `less` y ejecutar comandos desde alli, y finalmente esto nos abrira una consola `bash` con permisos de `root`:
 ![image](https://user-images.githubusercontent.com/85322110/149260381-63acf414-9994-4a34-8a94-5fcc19f75c0e.png)
