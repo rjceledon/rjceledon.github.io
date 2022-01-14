@@ -19,7 +19,7 @@ El dia de hoy se presenta una guia o `Writeup` en el cual se explica la metodolo
 Para ello empezaremos logeandonos en `TryHackMe` con nuestras credenciales, vamos al apartado de `Learn` y desde ahi usamos el buscador para encontrar nuestra maquina llamada `The Marketplace` con la siguiente descripcion:
 
 The sysadmin of The Marketplace, ***Michael***, has given you access to an internal server of his, so you can pentest the marketplace platform he and his team has been working on. He said it still has a few bugs he and his team need to iron out. Can you take advantage of this and will you be able to gain root access on his server?
-{: .notice--info}
+{: .alert .alert-info}
 
 Aunque no parezca de gran importancia, al tener esta descripcion ya debemos de tomar en cuenta que es posible que exista el usuario `michael` en el sistema.
 
