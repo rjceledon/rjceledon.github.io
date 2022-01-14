@@ -14,7 +14,7 @@ tags:
 El dia de hoy se presenta una guia o `writeup` sobre una maquina interesante en la plataforma de [TryHackMe](https://tryhackme.com/room/brainpan) la cual segun su propia descripcion indica que se hara un analisis de una vulnerabilidad por desbordamiento de buffer (`buffer overflow`) de un archivo ejecutable de `Windows .exe`, lo cual nos prepara de cierta forma para un reto en la certificacion [OSCP](https://www.offensive-security.com/pwk-oscp/) que es una de las mas demandadas a nivel profesional en el campo de la *Ciberseguridad* que tanto seguimos, por lo tanto todo esto comprende un reto tambien importante para nosotros al introducirnos en el area profesional del `Hacking Etico`.
 
 Un desbordamiento de bufer se refiere a una anomalia en donde un programa, mientras escribe en los buferes de memoria asignados para ciertas variables o registros, sobrepasa los limites de algun bufer, llegando a escribir en locaciones de memoria adyacentes como se presenta a continuacion:
-![image](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Buffer_overflow_basicexample.svg/1280px-Buffer_overflow_basicexample.svg.png)
+![image](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Buffer_overflow_basicexample.svg/1280px-Buffer_overflow_basicexample.svg.png){: width="500"}
 
 Brainpan is perfect for OSCP practice and has been highly recommended to complete before the exam. Exploit a buffer overflow vulnerability by analyzing a Windows executable on a Linux machine. If you get stuck on this machine, don't give up (or look at writeups), just try harder. 
 {: .alert .alert-info}
@@ -130,7 +130,8 @@ Luego de eso vamos a nuevamente correr nuestro script desde la maquina Linux y v
 ![image](https://user-images.githubusercontent.com/85322110/149205445-f6fd6131-c0fa-4d8c-ad9e-d0fbd697330c.png)
 
 La letra `A` representada en hexadecimal (ascii) tiene la forma `0x41`, y vemos como dicho valor `41` se repite muchas veces en diferentes registros, esto pasa por lo siguiente: El Stack o Pila en memoria son una serie de espacios en donde se almacena la informacion, como vemos en la imagen, existe un area llamada `Buffer Space` que es donde el programa guarda ciertos parametros como variables locales, entre otros, siendo en nuestro caso el espacio donde el programa guarda la entrada del usuario por telnet. La forma de escritura de memoria en el caso de la imagen es hacia abajo, vemos como los registros `EBP` y `EIP` estan por debajo de la que seria nuestra posicion actual, y el desbordamiento de bufer ocurre cuando sobrepasamos el limite del bufer que seria asignado a nuestra variable, y vamos mas alla llenando los espacios subyacentes.
-![image](https://user-images.githubusercontent.com/85322110/149208231-96f3e8af-c3fa-45b0-9a4f-63932b5110c1.png)
+^
+![image](https://user-images.githubusercontent.com/85322110/149208231-96f3e8af-c3fa-45b0-9a4f-63932b5110c1.png){: width="300"}
 
 El registro `EIP` es de extrema importancia, ya que es en donde se define a que instruccion debe saltar el programa en cada paso, si podemos escribir en el, teoricamente podemos dirigir el flujo del programa a nuestra conveniencia. Con esto en mente, debemos buscar una forma de saber cuantos caracteres exactamente necesitamos para llegar a ese registro `EIP`, ya que en dentro de el no queremos caracteres aleatorios o `A`es, necesitamos colocar en el una direccion en el programa que nos sirva para ejecutar comandos remotamente.
 
