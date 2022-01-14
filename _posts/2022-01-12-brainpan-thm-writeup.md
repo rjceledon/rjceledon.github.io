@@ -17,7 +17,7 @@ Un desbordamiento de bufer se refiere a una anomalia en donde un programa, mient
 ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Buffer_overflow_basicexample.svg/1280px-Buffer_overflow_basicexample.svg.png)
 
 Brainpan is perfect for OSCP practice and has been highly recommended to complete before the exam. Exploit a buffer overflow vulnerability by analyzing a Windows executable on a Linux machine. If you get stuck on this machine, don't give up (or look at writeups), just try harder. 
-{: .notice--info}
+{: .alert .alert-info}
 
 Esta caja en particular no utiliza `flag` de hashes en archivos `.txt` pero de igual forma completaremos los objetivos segun se vayan logrando los cuales son:
 
