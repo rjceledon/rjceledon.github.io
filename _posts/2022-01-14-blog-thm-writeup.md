@@ -11,6 +11,13 @@ tags:
   - reversing
 ---
 
+![image](https://user-images.githubusercontent.com/85322110/149606626-f6676da6-2236-407a-8bc5-9ace7b3eaf6a.png)
+![image](https://user-images.githubusercontent.com/85322110/149606629-10a31a7f-3cdd-4fba-8547-e8bfedda6bc7.png)
+![image](https://user-images.githubusercontent.com/85322110/149606632-81d12e14-f355-4760-a59b-49bc02fe10c3.png)
+![image](https://user-images.githubusercontent.com/85322110/149606634-742294c9-e654-451e-a9da-dcfd2ce9423b.png)
+Podemos hacer `fuzzing` que es la tecnica que se usa para buscar alguna ruta existente en subdirectorios de la pagina, para ello podemos usar la herramienta `gobuster` desarrollada en lenguaje Go:
+
+
 El dia de hoy se presenta una guia o `writeup` sobre una maquina interesante en la plataforma de [TryHackMe](https://tryhackme.com/room/brainpan) la cual segun su propia descripcion indica que se hara un analisis de una vulnerabilidad por desbordamiento de buffer (`buffer overflow`) de un archivo ejecutable de `Windows .exe`, lo cual nos prepara de cierta forma para un reto en la certificacion [OSCP](https://www.offensive-security.com/pwk-oscp/) que es una de las mas demandadas a nivel profesional en el campo de la *Ciberseguridad* que tanto seguimos, por lo tanto todo esto comprende un reto tambien importante para nosotros al introducirnos en el area profesional del `Hacking Etico`.
 
 Un desbordamiento de bufer se refiere a una anomalia en donde un programa, mientras escribe en los buferes de memoria asignados para ciertas variables o registros, sobrepasa los limites de algun bufer, llegando a escribir en locaciones de memoria adyacentes como se presenta a continuacion:
