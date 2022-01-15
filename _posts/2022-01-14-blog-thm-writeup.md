@@ -55,7 +55,7 @@ A partir de ahi revisamos los archivos pero no encontramos mucho. Al usar `stegh
 
 Asi que al no ver nada interesante, nos centramos en la pagina web, al abrirla vemos un Blog en Wordpress comun, con un par de publicaciones, de las cuales si vemos los autores tenemos dos posibles usuarios de la pagina que son `bjoel,kwheel`, intentamos logearnos con claves por defecto en el apartado de `Login` que encontramos en el sitio pero no logramos entrar.
 
-Podriamos intentar hacer `fuzzing` para encontrar rutas y archivos de la pagina, sin embargo notamos un problema de conexion al mandar muchos paquetes, asi que podemos ir manualmente [enumerando](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress) un poco el WordPress, con lo cual encontramos que efectivamente existe el archivo `/xmlrpc.php` debido a que si hacemos peticion usando `burpsuite` o `curl` obtenemos respuesta desde el lado del servidor. 
+Podriamos intentar hacer `fuzzing` para encontrar rutas y archivos de la pagina, sin embargo notamos un problema de conexion al mandar muchos paquetes, asi que podemos ir manualmente [enumerando](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress) un poco el WordPress, con lo cual encontramos que efectivamente existe el archivo `/xmlrpc.php` debido a que si hacemos peticion usando `burpsuite` o `curl` obtenemos respuesta positiva desde el lado del servidor. 
 
 
 
