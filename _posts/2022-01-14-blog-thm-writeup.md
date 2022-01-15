@@ -17,6 +17,8 @@ tags:
 ![image](https://user-images.githubusercontent.com/85322110/149606629-10a31a7f-3cdd-4fba-8547-e8bfedda6bc7.png)
 ![image](https://user-images.githubusercontent.com/85322110/149606632-81d12e14-f355-4760-a59b-49bc02fe10c3.png)
 ![image](https://user-images.githubusercontent.com/85322110/149606634-742294c9-e654-451e-a9da-dcfd2ce9423b.png)
+![image](https://user-images.githubusercontent.com/85322110/149607176-3a61b846-19cb-4b52-9bf5-671b9b17b0e2.png)
+
 Podemos hacer `fuzzing` que es la tecnica que se usa para buscar alguna ruta existente en subdirectorios de la pagina, para ello podemos usar la herramienta `gobuster` desarrollada en lenguaje Go:
 
 
@@ -40,7 +42,7 @@ Escaneamos los puertos abiertos con la herramienta `nmap`{:.language-bash .highl
 > `nmap -p- -sS --open --min-rate=600 -vvv -n -Pn -oN puertos.txt 10.10.193.129`{:.language-bash .highlight}
 ![image]
 
-Con esto vemos **todos** los puertos TCP `-p-`, usamos  solo listar puertos `--open`, con velocidad maxima de escaneo `-T5`, sin resolucion DNS `-n`, `-v`erbosidad para ver puertos abiertos en salida y guardando un archivo `-oN puertos.txt`
+Con esto vemos **todos** los puertos TCP `-p-`, usamos  solo listar puertos `--open`, con velocidad maxima de escaneo [TCP SYN Scan](https://nmap.org/book/synscan.html), sin resolucion DNS `-n`, `-v`erbosidad para ver puertos abiertos en salida y guardando un archivo `-oN puertos.txt` [Host Discovery](https://nmap.org/book/man-host-discovery.html)
 
 Procedemos a analizar en mas detalle los puertos abiertos pasandoles scripts basicos de enumeracion `-sC` y deteccion de version `-sV`, con salida al archivo `version.txt`.
 > `nmap -sC -sV 10.10.137.187 -oN version.txt`{:.language-bash .highlight}
