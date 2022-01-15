@@ -5,10 +5,12 @@ categories:
   - cajas
 tags:
   - thm
-  - bof
-  - windows
-  - escape
+  - wordpress
+  - web
+  - php
   - reversing
+  - xml
+  - metasploit
 ---
 
 ![image](https://user-images.githubusercontent.com/85322110/149606626-f6676da6-2236-407a-8bc5-9ace7b3eaf6a.png)
@@ -18,36 +20,27 @@ tags:
 Podemos hacer `fuzzing` que es la tecnica que se usa para buscar alguna ruta existente en subdirectorios de la pagina, para ello podemos usar la herramienta `gobuster` desarrollada en lenguaje Go:
 
 
-El dia de hoy se presenta una guia o `writeup` sobre una maquina interesante en la plataforma de [TryHackMe](https://tryhackme.com/room/brainpan) la cual segun su propia descripcion indica que se hara un analisis de una vulnerabilidad por desbordamiento de buffer (`buffer overflow`) de un archivo ejecutable de `Windows .exe`, lo cual nos prepara de cierta forma para un reto en la certificacion [OSCP](https://www.offensive-security.com/pwk-oscp/) que es una de las mas demandadas a nivel profesional en el campo de la *Ciberseguridad* que tanto seguimos, por lo tanto todo esto comprende un reto tambien importante para nosotros al introducirnos en el area profesional del `Hacking Etico`.
+Hoy traemos la maquina `Blog` de [TryHackMe](https://tryhackme.com/room/blog) en donde segun su misma descripcion indica que esta usando el `Sistema de Gestion de Contenido (CMS)` muy conocido [WordPress](https://www.wordpress.com) el cual tambien tiene una lista extensa de vulnerabilidades pasadas, tambien vemos en sus propios objetivos se nos pide enumerar la version sobre este.
 
-Un desbordamiento de bufer se refiere a una anomalia en donde un programa, mientras escribe en los buferes de memoria asignados para ciertas variables o registros, sobrepasa los limites de algun bufer, llegando a escribir en locaciones de memoria adyacentes como se presenta a continuacion:
-![image](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Buffer_overflow_basicexample.svg/1280px-Buffer_overflow_basicexample.svg.png){: width="500"}
-
-Brainpan is perfect for OSCP practice and has been highly recommended to complete before the exam. Exploit a buffer overflow vulnerability by analyzing a Windows executable on a Linux machine. If you get stuck on this machine, don't give up (or look at writeups), just try harder. 
+Billy Joel made a blog on his home computer and has started working on it.  It's going to be so awesome!
+Enumerate this box and find the 2 flags that are hiding on it!  Billy has some weird things going on his laptop.  Can you maneuver around and get what you need?  Or will you fall down the rabbit hole...
+In order to get the blog to work with AWS, you'll need to add blog.thm to your /etc/hosts file.
 {: .alert .alert-info}
-
-Esta caja en particular no utiliza `flag` de hashes en archivos `.txt` pero de igual forma completaremos los objetivos segun se vayan logrando los cuales son:
-
-1. Deploy the machine.
-2. Gain initial access
-3. Escalate your privileges to root.
-
-**Sin saltarse ninguno antes de realmente completarlo**, vamos paso a paso.
 
 Una vez logeados, procedemos a iniciar la maquina ~~y agregarle 1 hora mas por si acaso~~, luego nos conectamos al VPN con
 > `sudo openvpn /PATHTO/USER.ovpn`{:.language-bash .highlight}
 
-Aqui ya podemos marcar el primer objetivo como completado, y empezamos...
+Con esto empezamos...
 
 ## RECONOCIMIENTO
 
-Como siempre primero podemos hacer un `ping -c 1 IP`{:.language-bash .highlight} para determinar el `TTL` de la respuesta a ver si se acerca a 64 (Linux) o a 128 (Windows), vemos en este caso que es Linux.
+Hacemos un `ping -c 1 IP`{:.language-bash .highlight} para analizar el `TTL` de la respuesta a ver si se aproxima a 64 (Linux) o a 128 (Windows), vemos en este caso que es Linux.
 
-Luego seguimos con nuestro escaneo con la herramienta `nmap`{:.language-bash .highlight} para identificar puertos abiertos y mucho mas con:
-> `nmap -p- --open -T5 -n -v 10.10.136.187 -oN puertos.txt`{:.language-bash .highlight}
-![image](https://user-images.githubusercontent.com/85322110/149168356-1fdfc1b9-5f1a-4139-93b3-ee11283955f7.png)
+Escaneamos los puertos abiertos con la herramienta `nmap`{:.language-bash .highlight} usando opciones que nos aumentaran en cierta medida la velocidad de escaneo:
+> `nmap -p- -sS --open --min-rate=600 -vvv -n -Pn -oN puertos.txt 10.10.193.129`{:.language-bash .highlight}
+![image]
 
-Para ver **todos** los puertos TCP `-p-`, solo listar puertos `--open`, con velocidad maxima de escaneo `-T5`, sin resolucion DNS `-n`, `-v`erbosidad para ver puertos abiertos en salida y guardando un archivo `-oN puertos.txt`
+Con esto vemos **todos** los puertos TCP `-p-`, usamos  solo listar puertos `--open`, con velocidad maxima de escaneo `-T5`, sin resolucion DNS `-n`, `-v`erbosidad para ver puertos abiertos en salida y guardando un archivo `-oN puertos.txt`
 
 Procedemos a analizar en mas detalle los puertos abiertos pasandoles scripts basicos de enumeracion `-sC` y deteccion de version `-sV`, con salida al archivo `version.txt`.
 > `nmap -sC -sV 10.10.137.187 -oN version.txt`{:.language-bash .highlight}
