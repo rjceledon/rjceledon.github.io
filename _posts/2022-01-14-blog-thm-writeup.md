@@ -57,12 +57,25 @@ Asi que al no ver nada interesante, nos centramos en la pagina web, al abrirla v
 
 Podriamos intentar hacer `fuzzing` para encontrar rutas y archivos de la pagina, sin embargo notamos un problema de conexion al mandar muchos paquetes, asi que podemos ir manualmente [enumerando](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress) un poco el WordPress.
 
-Podemos validar si existen mas usuarios posibles usando una ruta tipica de WordPress en `/wp-json/wp/v2/users`, aca tendremos encontramos efectivamente un texto en formato  con lo cual encontramos que efectivamente existe el archivo `/xmlrpc.php` debido a que si hacemos peticion usando `burpsuite` o `curl` obtenemos respuesta positiva desde el lado del servidor. 
+Podemos validar si existen mas usuarios posibles usando una ruta tipica de WordPress en `/wp-json/wp/v2/users`, aca encontramos efectivamente un texto en formato JSON con cierta informacion: 
 ![image](https://user-images.githubusercontent.com/85322110/149642926-7293d7f9-da77-4ffe-b0cf-2cbffc322194.png)
 
+Podemos hacer uso de la herramienta `jq` con la cual si pasamos un `echo 'TEXTOJSON' | jq ".[] | .slug" | tr -d '"'`{:.language-bash} podemos obtener el campo `slug` del formato JSON y verificamos que solo existen los usuarios `bjoel,kwheel` que identificamos antes.  
 
+Seguimos enumerando y encontramos que efectivamente existe el archivo `/xmlrpc.php` debido a que si hacemos peticion usando `burpsuite` o `curl` obtenemos respuesta positiva desde el lado del servidor, aunque pone lo siguiente:
 
+> XML-RPC server accepts POST requests only. 
 
+Pues lo unico que debemos hacer aca para poder [enumerar](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress#xml-rpc) ciertas cosas con esta API, podemos hacer uso de `burpsuite` donde activamos el proxy, interceptamos una actualizacion de esta pagina, nos mandamos la peticion a la opcion `Repeater`, damos `2do Click` y usamos `Change request Method` para cambiar la peticion a `POST`, y luego ya solo queda modificar el cuerpo de la peticion, por ejemplo podemos mostrar los metodos disponibles a llamar con:
+```xml
+<methodCall>
+<methodName>
+system.listMethods
+</methodName>
+</methodCall>
+```
+
+ 
 ## ESCANEO
 
 
