@@ -58,6 +58,7 @@ Asi que al no ver nada interesante, nos centramos en la pagina web, al abrirla v
 Podriamos intentar hacer `fuzzing` para encontrar rutas y archivos de la pagina, sin embargo notamos un problema de conexion al mandar muchos paquetes, asi que podemos ir manualmente [enumerando](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress) un poco el WordPress.
 
 Podemos validar si existen mas usuarios posibles usando una ruta tipica de WordPress en `/wp-json/wp/v2/users`, aca tendremos encontramos efectivamente un texto en formato  con lo cual encontramos que efectivamente existe el archivo `/xmlrpc.php` debido a que si hacemos peticion usando `burpsuite` o `curl` obtenemos respuesta positiva desde el lado del servidor. 
+![image](https://user-images.githubusercontent.com/85322110/149642926-7293d7f9-da77-4ffe-b0cf-2cbffc322194.png)
 
 
 
