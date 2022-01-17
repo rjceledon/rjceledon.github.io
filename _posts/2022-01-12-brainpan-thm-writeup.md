@@ -10,6 +10,7 @@ tags:
   - escape
   - reversing
 ---
+![image](https://tryhackme-images.s3.amazonaws.com/room-icons/f184bf1424977ce8b3198d1a8c212700.png){: width="100"}
 
 El dia de hoy se presenta una guia o `writeup` sobre una maquina interesante en la plataforma de [TryHackMe](https://tryhackme.com/room/brainpan) la cual segun su propia descripcion indica que se hara un analisis de una vulnerabilidad por desbordamiento de buffer (`buffer overflow`) de un archivo ejecutable de `Windows .exe`, lo cual nos prepara de cierta forma para un reto en la certificacion [OSCP](https://www.offensive-security.com/pwk-oscp/) que es una de las mas demandadas a nivel profesional en el campo de la *Ciberseguridad* que tanto seguimos, por lo tanto todo esto comprende un reto tambien importante para nosotros al introducirnos en el area profesional del `Hacking Etico`.
 
