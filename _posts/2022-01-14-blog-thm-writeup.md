@@ -116,6 +116,8 @@ Una vez aca podemos buscar el mismo exploit con `search wordpress 5.0` y anotamo
 ![image](https://user-images.githubusercontent.com/85322110/149840797-37e94b55-43f6-4043-8776-7499c62507d9.png)
 ![image](https://user-images.githubusercontent.com/85322110/149840827-0f2f5912-a4b5-4422-abd1-5031da93367a.png)
 
+Ya con todo configurado, procemos a escribir `exploit` y darle enter:
+
 
 ## ESCANEO
 
