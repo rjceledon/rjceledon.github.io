@@ -29,7 +29,7 @@ panel:
 
 #  The liquid date format › http://strftime.net/
 date_format:
-  tooltip: '%a, %e %ba, %Y, %l:%M %p %z'
+  tooltip: '%a, %e %b, %Y, %l:%M %p %z'
   post:
     long: '%e %b, %Y'
     short: '%e %b'
