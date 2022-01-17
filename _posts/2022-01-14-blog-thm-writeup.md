@@ -69,9 +69,9 @@ Seguimos enumerando y encontramos que efectivamente existe el archivo `/xmlrpc.p
 Pues lo unico que debemos hacer aca para poder [enumerar](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress#xml-rpc) ciertas cosas con esta API, podemos hacer uso de `burpsuite` donde activamos el proxy, interceptamos una actualizacion de esta pagina, nos mandamos la peticion a la opcion `Repeater`, damos `2do Click` y usamos `Change request Method` para cambiar la peticion a `POST`, y luego ya solo queda modificar el cuerpo de la peticion, por ejemplo podemos mostrar los metodos disponibles a llamar con:
 ```xml
 <methodCall>
-	<methodName>
-		system.listMethods
-	</methodName>
+ <methodName>
+  system.listMethods
+ </methodName>
 </methodCall>
 ```
 ![image](https://user-images.githubusercontent.com/85322110/149643483-90ecadf0-518d-40e9-bb11-93d92cedbda0.png)
@@ -84,22 +84,21 @@ Vemos de ultimo en la lista que tenemos disponible el metodo `wp.getUsersBlogs` 
 
 ```xml
 <methodCall>
-	<methodName>
-		wp.getUsersBlogs
-	</methodName>
-	<params>
-		<param>
-			<value>
-				user
-			</value>
-		</param>
-		<param>
-			<value>
-				password
-			</value>
-		</param>
-	</params>
-	
+ <methodName>
+  wp.getUsersBlogs
+ </methodName>
+  <params>
+   <param>
+    <value>
+     user
+		</value>
+   </param>
+   <param>
+    <value>
+     password
+    </value>
+   </param>
+  </params>	
 </methodCall>
 ```
  
