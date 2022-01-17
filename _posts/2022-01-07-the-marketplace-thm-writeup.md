@@ -9,6 +9,7 @@ tags:
   - web
   - docker
 ---
+![image](https://tryhackme-images.s3.amazonaws.com/room-icons/7c385ae7e0ef53362b807fffe8b69a47.png){: width="100"}
 
 En el campo de la ciberseguridad, el realizar las pruebas en competencias del tipo `Captura la bandera` o `CTF` nos ayuda a comprender los conceptos claves sobre aquellas vulnerabilidades que pudiesen estar presentes en un entorno empresarial.
 
