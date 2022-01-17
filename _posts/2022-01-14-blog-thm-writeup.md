@@ -79,6 +79,7 @@ system.listMethods
 Vemos de ultimo en la lista que tenemos disponible el metodo `wp.getUsersBlogs` con el cual podremos utilizarlo para probar por fuera bruta `bruteforce` las claves de estos dos usuarios que nos encontramos. Para esto existen diferentes maneras, tenemos `burpsuite` que con licencia pro hace funcion de `Intruder` por hilos, tenemos `wpscan` que tambien tiene un modulo de fuerza bruta, tambien podriamos hacer uso de herramientas de fuzzing como `wfuzz`, o incluso desde un script en `bash` usando el paquete `curl`, sin embargo vemos que esta maquina es altamente susceptible a DoS si se envian muchas peticiones, asi que en este caso tiraremos de `wfuzz` sin agregar muchos hilos usando lo siguiente:
 
 > La peticion que se debe enviar para probar una clave esta
+
 ```xml
 <methodCall>
 <methodName>

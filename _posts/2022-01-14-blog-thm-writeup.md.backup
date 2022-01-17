@@ -84,9 +84,15 @@ Vemos de ultimo en la lista que tenemos disponible el metodo `wp.getUsersBlogs` 
 <methodName>
 <params>
 <param>
+<value>
+user
+</value>
 </param>
 <param>
-</>
+<value>
+password
+</value>
+</param>
 </params>
 </methodName>
 </methodCall>
