@@ -12,7 +12,7 @@ tags:
   - xml
   - metasploit
 ---
-https://tryhackme-images.s3.amazonaws.com/room-icons/618f1cc93596ff4082250bce9d869767.png
+![image](https://tryhackme-images.s3.amazonaws.com/room-icons/618f1cc93596ff4082250bce9d869767.png)
 Hoy traemos la maquina `Blog` de [TryHackMe](https://tryhackme.com/room/blog) en donde segun su misma descripcion indica que esta usando el `Sistema de Gestion de Contenido (CMS)` muy conocido [WordPress](https://www.wordpress.com) el cual tambien tiene una lista extensa de vulnerabilidades pasadas, tambien vemos en sus propios objetivos se nos pide enumerar la version sobre este.
 
 Billy Joel made a blog on his home computer and has started working on it.  It's going to be so awesome!
