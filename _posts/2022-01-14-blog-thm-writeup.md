@@ -110,6 +110,10 @@ wfuzz -c --hh=403 -w dict.txt -w users.txt -d "<methodCall><methodName>wp.getUse
 Con esto usaremos formato `-c`olorizado, escondemos las respuestas con 403 caracteres (si se quita este comando, apareceran todas las solicitudes con claves incorrectas, usamos este filtro para eliminar esas respuestas especificas), usamos el diccionario `-w` dict.txt de primero para iterar 1 clave con dos usuarios, y luego el diccionario de `-w` users.txt, si lo ponemos en orden inverso pues iteraria 1 usuario con todas las claves, y nosotros queremos probar cada clave con cada usuario para agilizar tiempo, luego con `-d` pasamos la `POST data` de la peticion `xml` en una sola linea, poniendo `FUZ2Z` donde irian nuestro `user.txt`, y ponemos `FUZZ` donde irian las claves, y finalmente la URL de peticion, con esto encontramos la clave para `kwheel`:
 ![image](https://user-images.githubusercontent.com/85322110/149839157-21e5e57e-1f71-4c3b-a32e-896cd9be8886.png)
 
+Una vez tenemos esta clave, podemos probar logearnos en la misma pagina, pero vemos que no tenemos permisos de administrador asi que no podremos hacer mucho, sin embargo existen `exploits` que requieren de autenticacion inicial para funcionar, por ello vemos si existe algun exploit para la version actual de wordpress con `searchsploit wordpress 5.0`{:.language-bash .highlight} y vemos ciertos exploits, pero en este caso nos enfocaremos en el llamado `WordPress Core 5.0.0 - Crop-image Shell Upload (Metasploit)` que es el que aparenta estar operativo. Al ser de Metasploit debemos lanzar el entorno del mismo con `msfconsole` y esperamos que se active la consola ~~con mucha paciencia~~.
+
+Una vez aca podemos buscar el mismo exploit con `search wordpress 5.0` y anotamos el nombre, enviamos `use exploit/multi/http/wp_crop_rce` y luego debemos completar las opciones del `exploit` con `options`, a partir de ahi seteamos el `LHOST, LPORT, RHOSTS, USERNAME y PASSWORD` con `set LHOST` por ejemplo:
+
 
 ## ESCANEO
 
