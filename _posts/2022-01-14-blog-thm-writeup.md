@@ -143,10 +143,9 @@ Ya con esto tenemos una consola interactiva con la cual procedemos a seguir inve
 Podemos intentar obtener la flag de `user.txt` que la encontramos en `/home/bjoel/user.txt` pero nos topamos con que es una burla y no se encuentra alli, vemos un archivo PDF que es una carta de despido para Billy indicando que usaba dispositivos USB lo cual no estaba permitido en esa empresa.
 
 Si seguimos buscando formas de obtener credenciales elevadas, al usar `find / -perm -4000 2>/dev/null` para ver los binarios con [SUID](https://www.hackingarticles.in/linux-privilege-escalation-using-suid-binaries/), notamos que hay uno que sobresale de la lista, pues esta en una carpeta donde no hay otros binarios SUID, en `/usr/sbin/checker`, al ejecutarlo solo nos dice que somos admin, pero si usamos `ltrace` para ejecutarlo vemos que hace uso de la funcion `getenv()` lo cual intenta buscar una variable de entorno llamada `admin`:
-
+![image](https://user-images.githubusercontent.com/85322110/149843382-9b1cb980-3c61-4011-b67e-6309364318b3.png)
 
 Probamos hacer `export admin='test'` y ejecutamos el binario de nuevo y efectivamente ya tenemos acceso root, de aca buscamos donde esta la flag `user.txt` y leemos la flag de `root.txt` y concluimos con esta maquina:
-
-
+![image](https://user-images.githubusercontent.com/85322110/149843391-7b9296e8-5b65-4b39-890a-680209ef1dd8.png)
 
 Saludos!
