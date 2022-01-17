@@ -108,6 +108,7 @@ wfuzz -c --hh=403 -w dict.txt -w users.txt -d "<methodCall><methodName>wp.getUse
 ```
 
 Con esto usaremos formato `-c`olorizado, escondemos las respuestas con 403 caracteres (si se quita este comando, apareceran todas las solicitudes con claves incorrectas, usamos este filtro para eliminar esas respuestas especificas), usamos el diccionario `-w` dict.txt de primero para iterar 1 clave con dos usuarios, y luego el diccionario de `-w` users.txt, si lo ponemos en orden inverso pues iteraria 1 usuario con todas las claves, y nosotros queremos probar cada clave con cada usuario para agilizar tiempo, luego con `-d` pasamos la `POST data` de la peticion `xml` en una sola linea, poniendo `FUZ2Z` donde irian nuestro `user.txt`, y ponemos `FUZZ` donde irian las claves, y finalmente la URL de peticion, con esto encontramos la clave para `kwheel`:
+![image](https://user-images.githubusercontent.com/85322110/149839157-21e5e57e-1f71-4c3b-a32e-896cd9be8886.png)
 
 
 ## ESCANEO
