@@ -91,7 +91,7 @@ Vemos de ultimo en la lista que tenemos disponible el metodo `wp.getUsersBlogs` 
    <param>
     <value>
      user
-		</value>
+    </value>
    </param>
    <param>
     <value>
