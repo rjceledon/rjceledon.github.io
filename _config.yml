@@ -24,7 +24,7 @@ tagline: Ciberseguridad y Hacking Etico   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   Un sitio donde depositar la informacion adquirida en el mundo del pentesting para
-  ayudar a la comunidad y tener referencis en espanol sobre hacking etico.
+  ayudar a la comunidad y tener referencias en espanol sobre hacking etico.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://rjceledon.github.io'
