@@ -1,6 +1,6 @@
 ---
-title: "Blog - THM Writeup"
-date: 2022-01-14T18:34:00-04:00
+title: "Borderlands - THM Writeup"
+date: 2022-01-24T18:34:00-04:00
 categories:
   - cajas
 tags:
