@@ -180,5 +180,3 @@ Finalmente lee /proc/pid/environ del proceso encontrado y procede con la logica 
 Una nota adicional: en la version 3.8 se corrigen simultaneamente cuatro CVEs. Ademas de CVE-2024-48990 con PYTHONPATH, se corrige CVE-2024-48992 que es exactamente el mismo problema pero para Ruby con la variable RUBYLIB, CVE-2024-48991 que es una condicion de carrera en la evaluacion de /proc/PID/exec, y CVE-2024-11003 que elimina el uso de Module::ScanDeps para prevenir LPE en Perl.
 
 Gracias!
-
-Gracias y saludos!
