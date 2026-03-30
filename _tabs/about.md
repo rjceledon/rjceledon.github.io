@@ -6,4 +6,4 @@ order: 4
 
 
 Un sitio donde depositar la informacion adquirida en el mundo del pentesting para
-ayudar a la comunidad y tener referencis en espanol sobre hacking etico.
+ayudar a la comunidad y tener referencias en espanol sobre hacking etico.
