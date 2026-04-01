@@ -2,15 +2,15 @@
 title: "Browsed - HTB - Notas de Estudio"
 date: 2026-03-31T22:00:00-04:00
 categories:
-
-* cajas
+  - cajas
 tags:
-* htb
-* chrome-extensions
-* command-injection
-* pyc
-* web
+  - htb
+  - chrome-extensions
+  - command-injection
+  - pyc
+  - web
 ---
+![image](https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/e8bbf358e6247fc98dcb76a3819bb5d0.png){: width="100"}
 
 # Browsed HTB - Notas de Estudio
 
