@@ -1,5 +1,5 @@
 ---
-title: "Support - HTB - Notas de Estudio"
+title: "Support - HTB Notas de Estudio"
 date: 2026-04-22T00:00:00-04:00
 categories:
   - cajas
@@ -12,6 +12,7 @@ tags:
   - smb
   - winrm
 ---
+![image](https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/833a3b1f7f96b5708d19b6de084c3201.png){: width="100"}
 
 # Support HTB - Notas de Estudio
 
